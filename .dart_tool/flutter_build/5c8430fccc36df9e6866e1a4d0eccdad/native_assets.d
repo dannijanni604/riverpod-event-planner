@@ -1,0 +1,1 @@
+ /Users/mac/Documents/riverpod-event-planner/.dart_tool/flutter_build/5c8430fccc36df9e6866e1a4d0eccdad/native_assets.yaml: 
