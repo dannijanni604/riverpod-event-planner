@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'utils/utils.dart';
 import 'views/views.dart';
 
 void main() {
@@ -12,7 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: MaterialApp(
-        home: HomeView(),
+        debugShowCheckedModeBanner: false,
+        home: const HomeView(),
+        theme: AppTheme.darkTheme,
       ),
     );
   }

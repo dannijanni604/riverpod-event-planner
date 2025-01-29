@@ -1,57 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_event_planner/data/events_data.dart';
+import '../../utils/utils.dart';
+import '../views.dart';
 
-final totalUsers = Provider<int>((ref) {
-  return 0;
-});
-
-final eventsList = Provider<List<Map<String, dynamic>>>((ref) {
-  final List<Map<String, dynamic>> events = [
-    {
-      'name': 'Event 1',
-      'date': '2021-10-10',
-      'time': '10:00',
-      'location': 'Location 1',
-      'description': 'Description 1',
-    },
-    {
-      'name': 'Event 2',
-      'date': '2021-10-11',
-      'time': '11:00',
-      'location': 'Location 2',
-      'description': 'Description 2',
-    },
-    {
-      'name': 'Event 3',
-      'date': '2021-10-12',
-      'time': '12:00',
-      'location': 'Location 3',
-      'description': 'Description 3',
-    },
-  ];
-  return events;
+final eventsProvider = Provider<List<Map<String, dynamic>>>((ref) {
+  return eventsList;
 });
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prov = ref.read(eventsList);
+    final prov = ref.read(eventsProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Event Planner'),
-        actions: [IconButton(icon: const Icon(Icons.add), onPressed: () {})],
-      ),
-      body: ListView.builder(
-        itemCount: prov.length,
-        itemBuilder: (context, index) => Card(
-          child: Column(
-            children: [
-              Text(prov[index]['name']),
-            ],
-          ),
-        ),
-      ),
-    );
+        appBar: AppBar(title: const Text('Event Planner'), actions: [
+          IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return AddEventView();
+                }));
+              })
+        ]),
+        body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: ListView.builder(
+                itemCount: prov.length,
+                itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return EventDetailsView(data: prov[index]);
+                      }));
+                    },
+                    child: Stack(children: [
+                      Card(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(prov[index]['name'],
+                                        style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold)),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(prov[index]['date'],
+                                              overflow: TextOverflow.ellipsis)
+                                        ]),
+                                    Text(prov[index]['description']),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Time:${prov[index]['time']}'),
+                                          Text(prov[index]['location'])
+                                        ])
+                                  ]))),
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                              width: 15,
+                              decoration: BoxDecoration(
+                                  color: prov[index]['isActive']
+                                      ? Colors.green
+                                      : AppTheme.primaryColor,
+                                  shape: BoxShape.circle),
+                              height: 15))
+                    ])))));
   }
 }
