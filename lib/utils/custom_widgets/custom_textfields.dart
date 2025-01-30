@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-Widget customTextfield(TextEditingController controller, String hint) {
+Widget customTextfield(Function(String) onChanged, String hint) {
   return TextField(
-    controller: controller,
+    onChanged: onChanged,
     style: const TextStyle(color: Colors.white),
     decoration: InputDecoration(
       hintText: hint,

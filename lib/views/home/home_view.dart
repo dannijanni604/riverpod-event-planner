@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_event_planner/data/events_data.dart';
+import 'package:riverpod_event_planner/views/todo_tasks/tasks/todo_task_view.dart';
 import '../../utils/utils.dart';
 import '../views.dart';
 
@@ -17,10 +18,17 @@ class HomeView extends ConsumerWidget {
     return Scaffold(
         appBar: AppBar(title: const Text('Event Planner'), actions: [
           IconButton(
+              icon: const Icon(Icons.toll_outlined),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const TodoTaskView();
+                }));
+              }),
+          IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return AddEventView();
+                  return const AddEventView();
                 }));
               })
         ]),

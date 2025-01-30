@@ -8,13 +8,7 @@ class AddEventView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final addEvent = ref.watch(addEventPrvider);
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController descriptionController = TextEditingController();
-    final TextEditingController locationController = TextEditingController();
-    final TextEditingController timeController = TextEditingController();
-    final TextEditingController dateController = TextEditingController();
-    bool isActive = false;
+    print("Adnan");
     return Scaffold(
       appBar: AppBar(title: const Text('Add Event')),
       body: Padding(
@@ -23,16 +17,36 @@ class AddEventView extends ConsumerWidget {
           spacing: 10,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            customTextfield(nameController, 'Name'),
-            customTextfield(descriptionController, 'Description'),
-            customTextfield(locationController, 'Location'),
-            customTextfield(timeController, 'Time'),
-            customTextfield(dateController, 'Date'),
+            customTextfield((value) {
+              ref.read(addEventPrvider.notifier).updateName(value);
+            }, 'Name'),
+            customTextfield((value) {
+              ref.read(addEventPrvider.notifier).updateDescription(value);
+            }, 'Description'),
+            customTextfield((value) {
+              ref.read(addEventPrvider.notifier).updateLocation(value);
+            }, 'Location'),
+            customTextfield((value) {
+              ref.read(addEventPrvider.notifier).updateTime(value);
+            }, 'Time'),
+            customTextfield((value) {
+              ref.read(addEventPrvider.notifier).updateDate(value);
+            }, 'Date'),
             Row(
               children: [
-                Checkbox(
-                  value: isActive,
-                  onChanged: (value) {},
+                Consumer(
+                  builder: (context, ref, child) {
+                    final isActiveProvider = ref.watch(
+                        (addEventPrvider).select((value) => value.isActive));
+                    return Checkbox(
+                      value: isActiveProvider,
+                      onChanged: (value) {
+                        ref
+                            .read(addEventPrvider.notifier)
+                            .updateIsActive(value!);
+                      },
+                    );
+                  },
                 ),
                 const Text('Active',
                     style: TextStyle(color: AppTheme.kTextColor)),

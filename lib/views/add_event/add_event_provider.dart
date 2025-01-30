@@ -1,21 +1,70 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final addEventPrvider =
-    StateNotifierProvider<AddEventNotifier, Map<String, dynamic>>((ref) {
-  return AddEventNotifier();
-});
+final addEventPrvider = StateNotifierProvider<AddEventNotifier, AddEventState>(
+  (ref) {
+    return AddEventNotifier();
+  },
+);
 
-class AddEventNotifier extends StateNotifier<Map<String, dynamic>> {
-  AddEventNotifier() : super({});
+class AddEventNotifier extends StateNotifier<AddEventState> {
+  AddEventNotifier() : super(AddEventState());
+  updateName(String name) {
+    state = state.copyWith(name: name);
+  }
 
-  void addEvent() {
-    state = {
-      'name': 'Event Name',
-      'description': 'Event Description',
-      'date': 'Event Date',
-      'location': 'Event Location',
-      'time': 'Event Time',
-      'isActive': true
-    };
+  updateDescription(String description) {
+    state = state.copyWith(description: description);
+  }
+
+  updateDate(String date) {
+    state = state.copyWith(date: date);
+  }
+
+  updateLocation(String location) {
+    state = state.copyWith(location: location);
+  }
+
+  updateTime(String time) {
+    state = state.copyWith(time: time);
+  }
+
+  updateIsActive(bool isActive) {
+    state = state.copyWith(isActive: isActive);
+  }
+}
+
+class AddEventState {
+  final String name;
+  final String description;
+  final String date;
+  final String location;
+  final String time;
+  final bool isActive;
+
+  AddEventState({
+    this.name = '',
+    this.description = '',
+    this.date = '',
+    this.location = '',
+    this.time = '',
+    this.isActive = true,
+  });
+
+  AddEventState copyWith({
+    String? name,
+    String? description,
+    String? date,
+    String? location,
+    String? time,
+    bool? isActive,
+  }) {
+    return AddEventState(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      date: date ?? this.date,
+      location: location ?? this.location,
+      time: time ?? this.time,
+      isActive: isActive ?? this.isActive,
+    );
   }
 }
