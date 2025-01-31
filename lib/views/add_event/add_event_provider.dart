@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final addEventPrvider = StateNotifierProvider<AddEventNotifier, AddEventState>(
+final addEventPrvider = StateNotifierProvider<AddEventNotifier, AddEvent>(
   (ref) {
     return AddEventNotifier();
   },
 );
 
-class AddEventNotifier extends StateNotifier<AddEventState> {
-  AddEventNotifier() : super(AddEventState());
+class AddEventNotifier extends StateNotifier<AddEvent> {
+  AddEventNotifier() : super(AddEvent());
   updateName(String name) {
     state = state.copyWith(name: name);
   }
@@ -33,7 +33,7 @@ class AddEventNotifier extends StateNotifier<AddEventState> {
   }
 }
 
-class AddEventState {
+class AddEvent {
   final String name;
   final String description;
   final String date;
@@ -41,7 +41,7 @@ class AddEventState {
   final String time;
   final bool isActive;
 
-  AddEventState({
+  AddEvent({
     this.name = '',
     this.description = '',
     this.date = '',
@@ -50,7 +50,7 @@ class AddEventState {
     this.isActive = true,
   });
 
-  AddEventState copyWith({
+  AddEvent copyWith({
     String? name,
     String? description,
     String? date,
@@ -58,7 +58,7 @@ class AddEventState {
     String? time,
     bool? isActive,
   }) {
-    return AddEventState(
+    return AddEvent(
       name: name ?? this.name,
       description: description ?? this.description,
       date: date ?? this.date,
